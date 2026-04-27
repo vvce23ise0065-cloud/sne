@@ -1,0 +1,26 @@
+name: Java CI/CD Pipeline 
+
+on: 
+  push: 
+    branches: [ "main" ] 
+
+jobs: 
+  build: 
+    runs-on: windows-latest 
+    env: 
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+
+    steps: # Fixed: This was indented too far
+      - name: Checkout Code
+        uses: actions/checkout@v4    
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4    
+        with: 
+          distribution: 'temurin' 
+          java-version: '21' 
+          cache: 'maven' # Recommended: Speeds up future builds
+
+      - name: Build using Maven 
+        run: mvn clean install 
+        working-directory: demo
